@@ -1,0 +1,33 @@
+pipeline {
+    agent any
+    stages {
+        stage("Clean Up") {
+            steps {
+                deleteDir()
+            }
+        }
+        stage("Clone Repo") {
+            steps {
+                sh "git clone https://github.com/rithikjain24/addressbook.git"
+            }
+        }
+        stage("Build") {
+            steps {
+                script {
+                    dir("addressbook") {
+                        sh "mvn clean install"
+                    }
+                }
+            }
+        }
+        stage("Test") {
+            steps {
+                script {
+                    dir("addressbook") {
+                        sh "mvn test"
+                    }
+                }
+            }
+        }
+    }
+}
