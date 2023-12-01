@@ -6,27 +6,28 @@ pipeline {
                 deleteDir()
             }
         }
-    }
-    stages {
-        stage('Build') {
+        stage("Clone Repo") {
             steps {
-                sh 'mvn -B -DskipTests clean package'
+                sh "git clone https://github.com/rithikjain24/addressbook.git"
             }
         }
-    }
-        stage('Test') {
+        stage("Build") {
             steps {
-                sh 'mvn test'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
+                script {
+                    dir("addressbook") {
+                        sh "mvn clean install"
+                    }
                 }
             }
         }
-        stage('Deliver') {
+        stage("Test") {
             steps {
-                sh './jenkins/scripts/deliver.sh'
+                script {
+                    dir("addressbook") {
+                        sh "mvn test"
+                    }
+                }
             }
         }
     }
+}
