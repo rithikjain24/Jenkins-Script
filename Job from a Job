@@ -1,0 +1,24 @@
+pipeline{
+    agent any
+    stages{
+        stage("Pipeline 1"){
+            steps{
+                build "sample-1"
+
+            }
+        }
+        stage("Pipeline 2"){
+            steps{
+                build "sample-2"
+
+            }
+        }
+        stage("Pipeline 3"){
+            steps{
+                build "sample-3"
+
+            }
+        }
+    }
+
+}
